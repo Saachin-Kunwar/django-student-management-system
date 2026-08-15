@@ -1,0 +1,62 @@
+{% extends 'students/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+<div class="max-w-2xl mx-auto mt-8 mb-10">
+
+    <!-- Form Card -->
+    <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+
+        <!-- Header -->
+        <div class="bg-gray-900 px-6 py-5">
+            <h3 class="text-2xl font-bold text-white">
+                {{ title }}
+            </h3>
+
+            <p class="text-gray-300 text-sm mt-1">
+                Enter the student's information below.
+            </p>
+        </div>
+
+        <!-- Form -->
+        <div class="p-6">
+
+            <form method="POST" class="space-y-5">
+
+                {% csrf_token %}
+
+                <!-- Django Form -->
+                <div class="space-y-4">
+
+                    {{ form.as_p }}
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="flex flex-wrap gap-3 pt-4 border-t border-gray-200">
+
+                    <!-- Save -->
+                    <button type="submit"
+                            class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2.5 rounded-lg transition duration-200 shadow-sm">
+                        💾 Save Student
+                    </button>
+
+                    <!-- Cancel -->
+                    <a href="{% url 'student_list' %}"
+                       class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-6 py-2.5 rounded-lg transition duration-200">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

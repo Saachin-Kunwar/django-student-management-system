@@ -1,0 +1,113 @@
+{% extends 'students/base.html' %}
+
+{% block title %}{{ student.name }} Details{% endblock %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto mt-8">
+
+    <!-- Student Details Card -->
+    <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+
+        <!-- Header -->
+        <div class="bg-gray-900 px-6 py-5">
+            <h2 class="text-2xl font-bold text-white">
+                {{ student.name }}
+            </h2>
+
+            <p class="text-gray-300 text-sm mt-1">
+                Student Details
+            </p>
+        </div>
+
+        <!-- Student Information -->
+        <div class="p-6">
+
+            <div class="divide-y divide-gray-200">
+
+                <!-- Email -->
+                <div class="py-4 flex flex-col sm:flex-row sm:justify-between">
+                    <span class="font-semibold text-gray-700">
+                        Email
+                    </span>
+
+                    <span class="text-gray-600 mt-1 sm:mt-0">
+                        {{ student.email }}
+                    </span>
+                </div>
+
+                <!-- Phone -->
+                <div class="py-4 flex flex-col sm:flex-row sm:justify-between">
+                    <span class="font-semibold text-gray-700">
+                        Phone
+                    </span>
+
+                    <span class="text-gray-600 mt-1 sm:mt-0">
+                        {{ student.phone }}
+                    </span>
+                </div>
+
+                <!-- Course -->
+                <div class="py-4 flex flex-col sm:flex-row sm:justify-between">
+                    <span class="font-semibold text-gray-700">
+                        Course
+                    </span>
+
+                    <span class="text-gray-600 mt-1 sm:mt-0">
+                        {{ student.course }}
+                    </span>
+                </div>
+
+                <!-- Address -->
+                <div class="py-4 flex flex-col sm:flex-row sm:justify-between">
+                    <span class="font-semibold text-gray-700">
+                        Address
+                    </span>
+
+                    <span class="text-gray-600 mt-1 sm:mt-0">
+                        {{ student.address }}
+                    </span>
+                </div>
+
+            </div>
+
+            <!-- Registered Date -->
+            <div class="mt-6 bg-gray-50 rounded-lg p-4">
+                <p class="text-sm text-gray-500">
+                    Registered on:
+                    <span class="font-medium text-gray-700">
+                        {{ student.created_at|date:"M d, Y" }}
+                    </span>
+                </p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 flex flex-wrap gap-3">
+
+                <!-- Edit -->
+                <a href="{% url 'student_update' student.pk %}"
+                   class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-5 py-2.5 rounded-lg transition duration-200 shadow-sm">
+                    ✏️ Edit
+                </a>
+
+                <!-- Delete -->
+                <a href="{% url 'student_delete' student.pk %}"
+                   class="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-lg transition duration-200 shadow-sm">
+                    🗑️ Delete
+                </a>
+
+                <!-- Back -->
+                <a href="{% url 'student_list' %}"
+                   class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-5 py-2.5 rounded-lg transition duration-200">
+                    ← Back to List
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
