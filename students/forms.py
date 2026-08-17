@@ -4,7 +4,6 @@ from .models import Student
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        # Replace 'course' with 'department' and 'clubs'
         fields = ['name', 'email', 'phone', 'address', 'department', 'clubs']
         widgets = {
             'name': forms.TextInput(attrs={
