@@ -50,3 +50,7 @@ student_management/
 ├── .gitignore               # Excluded files (venv, db.sqlite3, cache)
 ├── manage.py
 └── requirements.txt         # Project dependencies
+
+Saachin
+sachinop@gmail.com
+s@chin123

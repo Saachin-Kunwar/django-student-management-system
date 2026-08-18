@@ -1,207 +1,72 @@
 {% extends 'students/base.html' %}
 
-{% block title %}All Students{% endblock %}
-
 {% block content %}
-
-<div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-
-    <!-- Header -->
-    <div class="p-6 border-b border-gray-200">
-
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-
-            <!-- Title -->
-            <div>
-                <h3 class="text-2xl font-bold text-gray-800">
-                    Student Directory
-                </h3>
-
-                <p class="text-sm text-gray-500 mt-1">
-                    Manage and view all registered students.
-                </p>
-            </div>
-
-            <!-- Search Form -->
-            <form method="GET"
-                  action="{% url 'student_list' %}"
-                  class="flex flex-col sm:flex-row gap-2">
-
-                <input
-                    type="text"
-                    name="q"
-                    value="{{ query }}"
-                    placeholder="Search name, email, course..."
-                    class="w-full sm:w-72 px-4 py-2.5 border border-gray-300 rounded-lg
-                           focus:outline-none focus:ring-2 focus:ring-blue-500
-                           focus:border-blue-500 transition">
-
-                <button
-                    type="submit"
-                    class="bg-gray-800 hover:bg-gray-900 text-white font-semibold
-                           px-5 py-2.5 rounded-lg transition duration-200">
-                    🔍 Search
-                </button>
-
-                {% if query %}
-                    <a
-                        href="{% url 'student_list' %}"
-                        class="bg-red-100 hover:bg-red-200 text-red-700 font-semibold
-                               px-5 py-2.5 rounded-lg text-center transition duration-200">
-                        Reset
-                    </a>
-                {% endif %}
-
-            </form>
-
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+    <!-- Header & Search -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Student Directory</h1>
+            <p class="text-xs text-gray-500">Manage and view all registered students.</p>
         </div>
-
+        <form method="GET" class="flex gap-2">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search name, email, department..." class="px-4 py-2 border border-gray-300 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none w-64">
+            <button type="submit" class="bg-gray-900 hover:bg-gray-800 text-white font-semibold px-4 py-2 rounded-xl text-xs transition">🔍 Search</button>
+        </form>
     </div>
 
-
-    <!-- Student Table -->
-    <div class="overflow-x-auto">
-
-        <table class="w-full text-sm text-left text-gray-600">
-
-            <!-- Table Header -->
-            <thead class="bg-gray-900 text-white uppercase text-xs">
-
+    <!-- Table -->
+    <div class="overflow-x-auto rounded-xl border border-gray-100">
+        <table class="w-full text-left text-xs border-collapse">
+            <thead class="bg-gray-900 text-white uppercase tracking-wider">
                 <tr>
-                    <th scope="col" class="px-6 py-4">
-                        ID
-                    </th>
-
-                    <th scope="col" class="px-6 py-4">
-                        Name
-                    </th>
-
-                    <th scope="col" class="px-6 py-4">
-                        Email
-                    </th>
-
-                    <th scope="col" class="px-6 py-4">
-                        Course
-                    </th>
-
-                    <th scope="col" class="px-6 py-4">
-                        Actions
-                    </th>
+                    <th class="p-3.5">ID</th>
+                    <th class="p-3.5">Name</th>
+                    <th class="p-3.5">Email</th>
+                    <th class="p-3.5">Department</th>
+                    <th class="p-3.5 text-center">Actions</th>
                 </tr>
-
             </thead>
-
-
-            <!-- Table Body -->
-            <tbody class="divide-y divide-gray-200">
-
+            <tbody class="divide-y divide-gray-100">
                 {% for student in students %}
-
-                <tr class="hover:bg-gray-50 transition duration-150">
-
-                    <!-- ID -->
-                    <td class="px-6 py-4 font-medium text-gray-700">
-                        #{{ student.id }}
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="p-3.5 font-semibold text-gray-500">#{{ student.id }}</td>
+                    <td class="p-3.5 font-bold text-blue-600 hover:underline">
+                        <a href="{% url 'student_detail' student.pk %}">{{ student.name }}</a>
                     </td>
-
-
-                    <!-- Name -->
-                    <td class="px-6 py-4">
-
-                        <a
-                            href="{% url 'student_detail' student.pk %}"
-                            class="font-semibold text-blue-600 hover:text-blue-800 hover:underline transition">
-                            {{ student.name }}
-                        </a>
-
+                    <td class="p-3.5 text-gray-600">{{ student.email }}</td>
+                    <td class="p-3.5">
+                        {% if student.department %}
+                            <span class="bg-blue-50 text-blue-700 font-semibold px-2.5 py-1 rounded-md border border-blue-100">
+                                {{ student.department.name }}
+                            </span>
+                        {% else %}
+                            <span class="text-gray-400">—</span>
+                        {% endif %}
                     </td>
-
-
-                    <!-- Email -->
-                    <td class="px-6 py-4 text-gray-600">
-                        {{ student.email }}
-                    </td>
-
-
-                    <!-- Course -->
-                    <td class="px-6 py-4">
-
-                        <span
-                            class="inline-flex items-center px-3 py-1 rounded-full
-                                   text-xs font-semibold bg-blue-100 text-blue-800">
-                            {{ student.course }}
-                        </span>
-
-                    </td>
-
-
-                    <!-- Actions -->
-                    <td class="px-6 py-4">
-
-                        <div class="flex flex-wrap gap-2">
-
-                            <!-- Edit -->
-                            <a
-                                href="{% url 'student_update' student.pk %}"
-                                class="bg-yellow-500 hover:bg-yellow-600 text-white
-                                       font-semibold px-3 py-1.5 rounded-lg
-                                       text-xs transition duration-200">
+                    <td class="p-3.5 text-center">
+                        <div class="flex justify-center items-center gap-1.5">
+                            <!-- View Button -->
+                            <a href="{% url 'student_detail' student.pk %}" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-2.5 py-1 rounded-lg transition shadow-sm">
+                                👁️ View
+                            </a>
+                            <!-- Edit Button -->
+                            <a href="{% url 'student_update' student.pk %}" class="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-2.5 py-1 rounded-lg transition shadow-sm">
                                 ✏️ Edit
                             </a>
-
-                            <!-- Delete -->
-                            <a
-                                href="{% url 'student_delete' student.pk %}"
-                                class="bg-red-600 hover:bg-red-700 text-white
-                                       font-semibold px-3 py-1.5 rounded-lg
-                                       text-xs transition duration-200">
+                            <!-- Delete Button -->
+                            <a href="{% url 'student_delete' student.pk %}" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-2.5 py-1 rounded-lg transition shadow-sm">
                                 🗑️ Delete
                             </a>
-
                         </div>
-
                     </td>
-
                 </tr>
-
                 {% empty %}
-
-                <!-- Empty State -->
                 <tr>
-
-                    <td
-                        colspan="5"
-                        class="px-6 py-12 text-center">
-
-                        <div class="flex flex-col items-center">
-
-                            <div class="w-16 h-16 flex items-center justify-center
-                                        rounded-full bg-gray-100 mb-4">
-                                <span class="text-3xl">🎓</span>
-                            </div>
-
-                            <h4 class="text-lg font-semibold text-gray-700">
-                                No students found
-                            </h4>
-
-                            <p class="text-sm text-gray-500 mt-1">
-                                Try changing your search or add a new student.
-                            </p>
-
-                        </div>
-
-                    </td>
-
+                    <td colspan="5" class="p-6 text-center text-gray-500 font-medium">No students found.</td>
                 </tr>
-
                 {% endfor %}
-
             </tbody>
-
         </table>
-
     </div>
-
 </div>
-
 {% endblock %}
